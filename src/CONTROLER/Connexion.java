@@ -35,6 +35,7 @@ public class Connexion {
 
 		RechercheBD.connexion = this;
 		CreateObject.connexion = this;
+		DelecteObject.connexion = this;
 	}
 	
 	public void stopConnexion() throws SQLException {

@@ -58,6 +58,38 @@ public class RechercheBD {
         return retour;
     }
 
+    public static ArrayList<Annonce> ExtractionAllAnnonceUtilisateur(Utilisateur utilisateur2) throws SQLException {
+
+        int idUtilisateur;
+        if(utilisateur2 != null){
+            idUtilisateur = utilisateur2.getId();
+        }else{
+            idUtilisateur = -1;
+        }
+        ArrayList<Annonce> retour = new ArrayList<Annonce>();
+
+        connexion.enableConnexion();
+        Statement stmt = connexion.getConn().createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+
+        ResultSet result = stmt.executeQuery("SELECT idLogement,logement.Ville,Taille,Type,AnneeDeCreation,Adresse," +
+                "Photo,Description,idUtilisateur,Nom,Prénom,NumeroTelephone,utilisateur.ville,mail,idAnnonce,Prix,typeTransaction " +
+                "FROM annonce INNER JOIN utilisateur ON annonce.Utilisateur = utilisateur.idUtilisateur " +
+                "INNER JOIN logement ON annonce.Logement = logement.idLogement WHERE utilisateur.idUtilisateur = " + idUtilisateur);
+
+        while(result.next()){
+            Logement logement = new Logement(result.getInt(1),result.getString(2),result.getInt(3),result.getString(4),result.getDate(5).toLocalDate(),result.getString(6),result.getBlob(7),result.getString(8));
+            Utilisateur utilisateur = new Utilisateur(result.getInt(9),result.getString(10),result.getString(11),result.getString(12),null,result.getString(13),result.getString(14));
+            Annonce annonce = new Annonce(result.getInt(15),logement,utilisateur,result.getInt(16),result.getString(17));
+
+            retour.add(annonce);
+        }
+
+        stmt.close();
+        connexion.stopConnexion();
+
+        return retour;
+    }
+
     public static Annonce ExtractionAnnonceAvecID(int id) throws SQLException {
         Annonce annonce = null;
         connexion.enableConnexion();
