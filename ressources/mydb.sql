@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 02, 2019 at 01:40 AM
+-- Generation Time: Dec 02, 2019 at 05:10 PM
 -- Server version: 5.7.17
 -- PHP Version: 5.6.30
 
@@ -42,7 +42,8 @@ CREATE TABLE `annonce` (
 
 INSERT INTO `annonce` (`idAnnonce`, `Logement`, `Utilisateur`, `Prix`, `typeTransaction`) VALUES
 (1, 1, 13, 5, 'Location'),
-(2, 3, 12, 2569851, 'Vente');
+(2, 3, 12, 2569851, 'Vente'),
+(4, 3, 12, 3, 'TEST');
 
 -- --------------------------------------------------------
 
@@ -106,8 +107,8 @@ CREATE TABLE `utilisateur` (
   `Nom` varchar(45) NOT NULL,
   `Prénom` varchar(45) NOT NULL,
   `NumeroTelephone` varchar(256) NOT NULL,
-  `MotDePasse` varchar(45) DEFAULT NULL,
-  `Ville` varchar(45) DEFAULT NULL,
+  `MotDePasse` varchar(45) NOT NULL,
+  `Ville` varchar(45) NOT NULL,
   `mail` varchar(256) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -118,7 +119,8 @@ CREATE TABLE `utilisateur` (
 INSERT INTO `utilisateur` (`idUtilisateur`, `Nom`, `Prénom`, `NumeroTelephone`, `MotDePasse`, `Ville`, `mail`) VALUES
 (11, 'Turpin', 'Alexandre', '06292155150', '-926435972', 'Tours', 'alexandre.turpin@outlook.com'),
 (12, 'Turpin', 'Julien', '0695874415', '3273686', 'Paris', 'julien.turpin@outlook.com'),
-(13, 'ADMIN', '', '', '3556498', '', 'test');
+(13, 'ADMIN', '', '', '3556498', '', 'test'),
+(14, 'TEST', 'TEST', 'TEST', '3556498', 'TEST', 'TEST');
 
 --
 -- Indexes for dumped tables
@@ -164,7 +166,7 @@ ALTER TABLE `utilisateur`
 -- AUTO_INCREMENT for table `annonce`
 --
 ALTER TABLE `annonce`
-  MODIFY `idAnnonce` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `idAnnonce` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `logement`
 --
@@ -179,7 +181,7 @@ ALTER TABLE `offre`
 -- AUTO_INCREMENT for table `utilisateur`
 --
 ALTER TABLE `utilisateur`
-  MODIFY `idUtilisateur` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `idUtilisateur` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 --
 -- Constraints for dumped tables
 --
