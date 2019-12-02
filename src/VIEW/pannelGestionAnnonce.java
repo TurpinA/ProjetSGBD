@@ -1,5 +1,6 @@
 package VIEW;
 
+import CONTROLER.CreateObject;
 import CONTROLER.TableModelGererAnnonce;
 import MODEL.Annonce;
 
@@ -19,7 +20,7 @@ public class pannelGestionAnnonce extends JPanel implements ActionListener {
     private JTable tableGestionAnnonce = new JTable();
     private JLabel gestionAnnonceTitre = new JLabel();
     private TableModelGererAnnonce model2;
-    private ArrayList<Annonce> dataGestionAnnonce = new ArrayList<Annonce>();
+    private ArrayList<Annonce> dataGestionAnnonce = new ArrayList<>();
 
     public pannelGestionAnnonce(View view){
         this.frame = view;
@@ -98,6 +99,49 @@ public class pannelGestionAnnonce extends JPanel implements ActionListener {
 
         if (e.getSource() == buttonAjouterAnnonce) {
 
+            // https://stackoverflow.com/questions/43050653/setsize-on-joptionpane-box
+
+            JTextField ville = new JTextField();
+            JTextField taille = new JTextField();
+            JTextField type = new JTextField();
+            JTextField AnneeDeCreation = new JPasswordField();
+            JTextField adresse = new JTextField();
+            JFileChooser fc = new JFileChooser();
+            JButton description = new JButton();
+            description.setBounds(5,5,100,100);
+            Object[] message = {
+                    "Ville :", ville,
+                    "Taille (m²) :", taille,
+                    "Type de Logement :", type,
+                    "Annee de création :" ,  AnneeDeCreation,
+                    "Adresse :", adresse,
+                    "Photo :" , fc,
+                    "Description :", description
+            };
+
+            boolean valid = false;
+            boolean readytoadd = false;
+            while(!valid){
+                valid = true;
+                int option = JOptionPane.showConfirmDialog(null, message, "Ajouter une annonce", JOptionPane.OK_CANCEL_OPTION);
+                if(option == JOptionPane.OK_OPTION) {
+                    if (ville.getText().isEmpty()
+                            || taille.getText().equals("")
+                            || type.getText().equals("")
+                            || AnneeDeCreation.getText().equals("")
+                            || adresse.getText().equals("")
+                           // || photo.getText().equals("")
+                            || description.getText().equals("")){
+                        valid = false;
+                    }
+                    else{
+                        readytoadd = true;
+                    }
+                }
+            }
+            if(readytoadd){
+
+            }
         }
     }
 }
