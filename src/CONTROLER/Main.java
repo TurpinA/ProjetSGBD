@@ -24,7 +24,7 @@ public class Main {
 		connexion.setConnexion("127.0.0.1","3306","mydb", "root", "");
 
 		View test  = new View();
-		test.utilisateurConnecte(new Utilisateur(13,"ADMIN","","","","",""));
+		//test.utilisateurConnecte(new Utilisateur(13,"ADMIN","","","","",""));
 	}
 
 }
