@@ -36,6 +36,11 @@ public class View implements ActionListener {
     private JPanel panelBandeau = new JPanel();
     private JLabel connexionLabel = new JLabel();
     private JLabel texteBienvenue = new JLabel();
+    private JButton ConnexionButton = new JButton();
+
+    //TODO
+    private JButton DeconnexionButton = new JButton();
+    private JButton EnregistrementButton = new JButton();
 
     // Panel affichage annonce
     private Annonce annonce = new Annonce(-1,null,null,-1,"");
@@ -128,6 +133,23 @@ public class View implements ActionListener {
         panelBandeau.add(buttonGestionOffre);
         buttonGestionOffre.setVisible(false);
         buttonGestionOffre.addActionListener(this);
+
+        ConnexionButton.setBounds(0,125,125,40);
+        ConnexionButton.setText("Connexion");
+        panelBandeau.add(ConnexionButton);
+        ConnexionButton.addActionListener(this);
+
+        DeconnexionButton.setBounds(0,125,250,40);
+        DeconnexionButton.setText("Deconnexion");
+        panelBandeau.add(DeconnexionButton);
+        DeconnexionButton.addActionListener(this);
+        DeconnexionButton.setVisible(false);
+
+        EnregistrementButton.setBounds(125,125, 125,40);
+        EnregistrementButton.setText("Enregistrement");
+        panelBandeau.add(EnregistrementButton);
+        EnregistrementButton.addActionListener(this);
+
 
         // Panel de droite - Accueil w:750 h:700
         panelAccueil.setBackground(Color.white);
@@ -381,6 +403,7 @@ public class View implements ActionListener {
         frame.revalidate();
     }
 
+    //TODO
     public void mouseClickedActionConnexionLabel(){
         if(utilisateurConnecte == null)
         {
@@ -421,106 +444,6 @@ public class View implements ActionListener {
     public void actionPerformed(ActionEvent e) {
 
         if(e.getSource() == buttonRechercher1) {
-
-            if (!textFieldTailleMin.getText().equals("") && !textFieldTailleMax.getText().equals("")) {
-
-                RowFilter<TableModelRechercheLogement, Integer> filter = new RowFilter<>() {
-                    public boolean include(Entry entry) {
-                        int taille = (int) entry.getValue(3);
-                        return (taille >= Integer.parseInt(textFieldTailleMin.getText()) || taille <= Integer.parseInt(textFieldTailleMax.getText()));
-                    }
-                };
-
-                sorter.setRowFilter(filter);
-                tableRechercheLogement.setRowSorter(sorter);
-            }
-
-            if (!textFieldTailleMin.getText().equals("") && textFieldTailleMax.getText().equals("")) {
-
-                sorter.setRowFilter(RowFilter.numberFilter(RowFilter.ComparisonType.BEFORE, Integer.parseInt(textFieldTailleMin.getText()),3));
-                tableRechercheLogement.setRowSorter(sorter);
-            }
-
-            if (!textFieldTailleMax.getText().equals("") && textFieldTailleMin.getText().equals(""))
-            {
-
-                RowFilter<TableModelRechercheLogement, Integer> filter = new RowFilter<>() {
-                    public boolean include(Entry entry) {
-                        int taille = (int) entry.getValue(3);
-                        boolean bool = taille <= Integer.parseInt(textFieldTailleMax.getText());
-                        return (bool);
-                    }
-                };
-
-                sorter.setRowFilter(filter);
-                tableRechercheLogement.setRowSorter(sorter);
-            }
-
-            if (!textFieldPrixMin.getText().equals("") && !textFieldPrixMax.getText().equals("")) {
-
-                RowFilter<TableModelRechercheLogement, Integer> filter = new RowFilter<TableModelRechercheLogement, Integer>() {
-                    public boolean include(Entry entry) {
-                        int prix = (int) entry.getValue(4);
-                        return (prix >= Integer.parseInt(textFieldPrixMin.getText()) || prix <= Integer.parseInt(textFieldPrixMax.getText()));
-                    }
-                };
-
-                sorter.setRowFilter(filter);
-                tableRechercheLogement.setRowSorter(sorter);
-            }
-
-            if (!textFieldPrixMin.getText().equals("") && textFieldPrixMax.getText().equals("")) {
-
-                RowFilter<TableModelRechercheLogement, Integer> filter = new RowFilter<>() {
-                    public boolean include(Entry entry) {
-                        int prix = (int) entry.getValue(4);
-                        return(prix >= Integer.parseInt(textFieldPrixMin.getText()));
-                    }
-                };
-
-                sorter.setRowFilter(filter);
-                tableRechercheLogement.setRowSorter(sorter);
-            }
-
-            if (!textFieldPrixMax.getText().equals("") && textFieldPrixMin.getText().equals(""))
-            {
-
-                RowFilter<Object, Object> filter = new RowFilter<Object, Object>(){
-                    public boolean include(Entry entry) {
-                        Integer prix = (Integer) entry.getValue(4);
-                        Integer prixMax = Integer.parseInt(textFieldPrixMax.getText());
-                        return (prix.intValue() <= prixMax.intValue());
-                    }
-                };
-
-                sorter.setRowFilter(filter);
-                tableRechercheLogement.setRowSorter(sorter);
-            }
-
-            if (textFieldVille.getText() != null) {
-                sorter.setRowFilter(RowFilter.regexFilter("(?i)" + textFieldVille.getText(), 1));
-                tableRechercheLogement.setRowSorter(sorter);
-            }
-
-            if (listypeLogement.getSelectedItem() != null && listypeLogement.getSelectedItem().equals("Maison")) {
-                sorter.setRowFilter(RowFilter.regexFilter("(?i)" + "Maison", 2));
-                tableRechercheLogement.setRowSorter(sorter);
-            }
-
-            if (listypeLogement.getSelectedItem() != null && listypeLogement.getSelectedItem().equals("Appartement")) {
-                sorter.setRowFilter(RowFilter.regexFilter("(?i)" + "Appartement", 2));
-                tableRechercheLogement.setRowSorter(sorter);
-            }
-
-            if (listTransaction.getSelectedItem() != null && listTransaction.getSelectedItem().equals("Location")) {
-                sorter.setRowFilter(RowFilter.regexFilter("(?i)" + "Location", 5));
-                tableRechercheLogement.setRowSorter(sorter);
-            }
-
-            if (listTransaction.getSelectedItem() != null && listTransaction.getSelectedItem().equals("Vente")) {
-                sorter.setRowFilter(RowFilter.regexFilter("(?i)" + "Vente", 5));
-                tableRechercheLogement.setRowSorter(sorter);
-            }
 
         }
 
@@ -573,6 +496,109 @@ public class View implements ActionListener {
                 }
                 new JOptionPane().showMessageDialog( null, "Offre envoyée au Vendeur","Offre envoyée", JOptionPane.INFORMATION_MESSAGE);
             }
+        }
+        //TODO
+        if(e.getSource() == ConnexionButton){
+            if(utilisateurConnecte == null)
+            {
+                JTextField mail = new JTextField();
+                JTextField motDePasse = new JPasswordField();
+                Object[] message = {
+                        "Mail:", mail,
+                        "Mot de passe:", motDePasse
+                };
+
+                int option = JOptionPane.showConfirmDialog(null, message, "Login", JOptionPane.OK_CANCEL_OPTION);
+                if (option == JOptionPane.OK_OPTION) {
+                    try {
+                        utilisateurConnecte = RechercheBD.ConnexionUtilisateur(mail.getText(),Integer.toString(motDePasse.getText().hashCode()));
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
+                    }
+                    if(utilisateurConnecte != null) {
+                        utilisateurConnecte(utilisateurConnecte);
+                        new JOptionPane().showMessageDialog( null, "Connexion reussit !","Connexion", JOptionPane.INFORMATION_MESSAGE);
+                    } else {
+                        new JOptionPane().showMessageDialog( null, "mail ou mot de passe incorrect","Connexion", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+
+                if(utilisateurConnecte != null){
+                    ConnexionButton.setVisible(false);
+                    EnregistrementButton.setVisible(false);
+                    DeconnexionButton.setVisible(true);
+                }
+            }
+        }
+
+        if(e.getSource() == DeconnexionButton){
+            JOptionPane d = new JOptionPane();
+            int retour = d.showConfirmDialog(null, "Etes vous sûr de vouloir vous deconnecter ?","Deconnexion", JOptionPane.YES_NO_OPTION);
+            if(retour == 0)
+            {
+                utilisateurDeconnecte();
+                new JOptionPane().showMessageDialog( null, "Vous etes a present deconnecte","Deconnexion", JOptionPane.INFORMATION_MESSAGE);
+            }
+            if(utilisateurConnecte == null){
+                DeconnexionButton.setVisible(false);
+                ConnexionButton.setVisible(true);
+                EnregistrementButton.setVisible(true);
+            }
+        }
+
+        if(e.getSource() == EnregistrementButton){
+            JTextField nom = new JTextField();
+            JTextField prenom = new JTextField();
+            JTextField numeroTelephone = new JTextField();
+            JTextField motDePasse = new JPasswordField();
+            JTextField ville = new JTextField();
+            JTextField mail = new JTextField();
+            Object[] message = {
+                    "Nom", nom,
+                    "Prenom", prenom,
+                    "Numero de telephone", numeroTelephone,
+                    "Mot de passe " ,  motDePasse,
+                    "Ville", ville,
+                    "mail" , mail
+            };
+
+            boolean valid = false;
+            boolean readytosign = false;
+            while(!valid){
+                valid = true;
+                int option = JOptionPane.showConfirmDialog(null, message, "Login", JOptionPane.OK_CANCEL_OPTION);
+                if(option == JOptionPane.OK_OPTION) {
+                    if (nom.getText().isEmpty()
+                            || prenom.getText().equals("")
+                            || numeroTelephone.getText().equals("")
+                            || motDePasse.getText().equals("")
+                            || ville.getText().equals("")
+                            || mail.getText().equals("")) {
+                        valid = false;
+                    }
+                    else{
+                        readytosign = true;
+                    }
+                }
+            }
+
+
+            if(readytosign){
+                try {
+                    CreateObject.CreateUtilisateur(nom.getText(),
+                            prenom.getText(),
+                            numeroTelephone.getText(),
+                            motDePasse.getText(),
+                            ville.getText(),
+                            mail.getText());
+                    System.out.println("JE SUIS LA PD");
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+
+
+
         }
     }
 }
