@@ -51,7 +51,7 @@ public class TableModelGestionOffre extends AbstractTableModel {
                 case 1:
                     return annonceSelected.getAnnonce().getId();
                 case 2:
-                    return annonceSelected.getAcheteur().getNom();
+                    return annonceSelected.getAcheteur().getNom() + " " + annonceSelected.getAcheteur().getPrenom();
                 case 3:
                     return annonceSelected.getDateCreation().toString();
                 case 4:

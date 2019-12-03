@@ -1,6 +1,7 @@
 package VIEW;
 
 import CONTROLER.CreateObject;
+import CONTROLER.TableModelRechercheLogement;
 import MODEL.Annonce;
 
 import javax.imageio.ImageIO;

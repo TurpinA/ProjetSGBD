@@ -2,6 +2,7 @@ package CONTROLER;
 
 import MODEL.Annonce;
 import MODEL.Logement;
+import MODEL.Offre;
 
 import java.sql.*;
 public class ModifyObject {
@@ -52,4 +53,24 @@ public class ModifyObject {
 
         modifierLogement(annonce.getLogement());
     }
+
+    public static void modifierOffre(Offre offre) throws SQLException {
+        connexion.enableConnexion();
+
+        Statement stmt = connexion.getConn().createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+
+        ResultSet rs = stmt.executeQuery("SELECT * FROM offre  WHERE idOffre = " + offre.getId());
+
+        while (rs.next()) {
+            rs.updateString("Status",offre.getStatus());
+            rs.updateRow();
+        }
+
+        stmt.close();
+
+        connexion.stopConnexion();
+
+    }
+
+
 }

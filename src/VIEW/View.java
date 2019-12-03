@@ -45,7 +45,7 @@ public class View extends JFrame {
         this.setResizable(false);
         this.setTitle("Annonce Manager");
 
-        panelBandeau.utilisateurConnecte(new Utilisateur(13,"ADMIN","","","","",""));
+        //panelBandeau.utilisateurConnecte(new Utilisateur(13,"ADMIN","","","","",""));
     }
 
     public pannelAccueil getPanelAccueil() {

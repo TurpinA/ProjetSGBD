@@ -1,5 +1,6 @@
 package VIEW;
 
+import CONTROLER.ModifyObject;
 import CONTROLER.TableModelGererAnnonce;
 import CONTROLER.TableModelGestionOffre;
 import MODEL.Annonce;
@@ -27,6 +28,9 @@ public class pannelGestionOffre extends JPanel implements ActionListener {
     private TableModelGestionOffre model3;
     private ArrayList<Offre> dataGestionOffreClient = new ArrayList<Offre>();
     private ArrayList<Offre> dataGestionOffreProprio = new ArrayList<Offre>();
+    private JButton AccepterOffre = new JButton();
+    private JButton refuserOffre = new JButton();
+
 
 
     public pannelGestionOffre(View view) throws SQLException {
@@ -45,24 +49,25 @@ public class pannelGestionOffre extends JPanel implements ActionListener {
         this.add(SwitchProfilclient);
         SwitchProfilclient.addActionListener(this);
 
+        refuserOffre.setText("Refuser");
+        refuserOffre.setBounds(100,150,200,40);
+        this.add(refuserOffre);
+        refuserOffre.addActionListener(this);
+        refuserOffre.setVisible(false);
+
+        AccepterOffre.setText("Accepter");
+        AccepterOffre.setBounds(300,150,200,40);
+        this.add(AccepterOffre);
+        AccepterOffre.addActionListener(this);
+        AccepterOffre.setVisible(false);
+
         SwitchProfilProprio.setText("Afficher en tant que client");
         SwitchProfilProprio.setBounds(240,100,230,40);
         this.add(SwitchProfilProprio);
         SwitchProfilProprio.addActionListener(this);
         SwitchProfilProprio.setVisible(false);
 
-        dataGestionOffreClient = RechercheBD.ExtractionOffreUtilisateur(View.utilisateurConnecte);
-        for(Offre offre : dataGestionOffreClient){
-            if(offre.getAcheteur().getNom().equals(View.utilisateurConnecte.getNom())){
-                dataGestionOffreProprio.add(offre);
-            }
-        }
-
-        for(Offre offre : dataGestionOffreProprio){
-            if(dataGestionOffreClient.contains(offre)){
-                dataGestionOffreClient.remove(offre);
-            }
-        }
+        extractdata();
 
         String[] entetes2 = {"ID", "Annonce", "Acheteur", "Date de creation","PRIX","Status"};
 
@@ -93,12 +98,72 @@ public class pannelGestionOffre extends JPanel implements ActionListener {
             SwitchProfilclient.setVisible(!SwitchProfilclient.isVisible());
             SwitchProfilProprio.setVisible(!SwitchProfilProprio.isVisible());
             tableGestionOffre.setModel(model3);
+            refuserOffre.setVisible(true);
+            AccepterOffre.setVisible(true);
         }
 
         if(e.getSource() == SwitchProfilProprio){
             SwitchProfilclient.setVisible(!SwitchProfilclient.isVisible());
             SwitchProfilProprio.setVisible(!SwitchProfilProprio.isVisible());
             tableGestionOffre.setModel(model2);
+            refuserOffre.setVisible(false);
+            AccepterOffre.setVisible(false);
+        }
+
+        if(e.getSource() == AccepterOffre){
+            int id = (int) tableGestionOffre.getValueAt(tableGestionOffre.getSelectedRow(),0);
+            System.out.print(id);
+            Offre offre = new Offre(id,null,null,null,0,"accepter");
+            try {
+                ModifyObject.modifierOffre(offre);
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+
+            extractdata();
+
+            model3.setDonne(dataGestionOffreProprio);
+            model3.fireTableDataChanged();
+
+        }
+
+        if(e.getSource() == refuserOffre){
+            int id = (int) tableGestionOffre.getValueAt(tableGestionOffre.getSelectedRow(),0);
+            System.out.print(id);
+            Offre offre = new Offre(id,null,null,null,0,"refuser");
+            try {
+                ModifyObject.modifierOffre(offre);
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+
+            extractdata();
+
+            model3.setDonne(dataGestionOffreProprio);
+            model3.fireTableDataChanged();
+        }
+    }
+
+    public void extractdata(){
+
+        dataGestionOffreClient = new ArrayList<Offre>();
+        dataGestionOffreProprio = new ArrayList<Offre>();
+
+        try {
+            dataGestionOffreProprio = RechercheBD.ExtractionOffreUtilisateur(View.utilisateurConnecte);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        for(Offre offre : dataGestionOffreProprio){
+            if(View.utilisateurConnecte.getId() == offre.getAcheteur().getId()){
+                dataGestionOffreClient.add(offre);
+            }
+        }
+
+        for(Offre offre : dataGestionOffreClient){
+            if(dataGestionOffreProprio.contains(offre)){
+                dataGestionOffreProprio.remove(offre);
+            }
         }
     }
 
