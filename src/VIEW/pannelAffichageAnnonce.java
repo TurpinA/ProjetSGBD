@@ -89,6 +89,7 @@ public class pannelAffichageAnnonce extends JPanel implements ActionListener {
         AFATextArea.setFont(new Font("Arial", Font.BOLD, 12));
         AFATextArea.setBounds(420,250,300,260);
         AFATextArea.setLineWrap(true);
+        AFATextArea.setEditable(false);
         this.add(AFATextArea);
 
         AFALabelContact.setFont(new Font("Arial", Font.BOLD, 15));
