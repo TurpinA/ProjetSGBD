@@ -80,11 +80,12 @@ public class CreateObject {
         Statement stmt = connexion.getConn().createStatement();
 
         String sql = "INSERT INTO offre VALUES (NULL, "+ annonce.getId() +", "+ acheteur.getId() +",'" + dateCreation.getYear()
-                +"-" + dateCreation.getMonth().getValue() + "-"+ dateCreation.getDayOfMonth() +"', " + prix +");";
+                +"-" + dateCreation.getMonth().getValue() + "-"+ dateCreation.getDayOfMonth()
+                +"', " + prix +";" + "en attente" + ");";
         stmt.executeUpdate(sql);
         ResultSet result = stmt.executeQuery("SELECT LAST_INSERT_ID();");
         result.next();
-        Offre offre = new Offre(result.getInt(1),annonce,acheteur,dateCreation,prix);
+        Offre offre = new Offre(result.getInt(1),annonce,acheteur,dateCreation,prix,"en attente");
 
         stmt.close();
 

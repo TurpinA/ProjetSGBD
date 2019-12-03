@@ -126,6 +126,11 @@ public class pannelBandeau extends JPanel implements ActionListener{
         }
 
         if (e.getSource() == buttonGestionOffre) {
+            try {
+                frame.setPanelGestionOffre(new pannelGestionOffre(frame));
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
             Component[] allPanel = frame.getContentPane().getComponents();
             frame.remove(allPanel[1]);
             frame.add(frame.getPanelGestionOffre(),BorderLayout.CENTER);

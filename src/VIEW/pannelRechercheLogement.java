@@ -176,7 +176,7 @@ public class pannelRechercheLogement extends JPanel implements ActionListener {
 
             if (!textFieldPrixMin.getText().equals("") && !textFieldPrixMax.getText().equals("")) {
 
-                filterPrixRechercheLogement = new RowFilter<>() {
+                filterPrixRechercheLogement = new RowFilter<TableModelRechercheLogement, Object>() {
                     @Override
                     public boolean include(Entry entry) {
                         int prix = (int) entry.getValue(4);
@@ -188,7 +188,7 @@ public class pannelRechercheLogement extends JPanel implements ActionListener {
 
             if (!textFieldTailleMin.getText().equals("") && !textFieldTailleMax.getText().equals("")) {
 
-                filterTailleRechercheLogement = new RowFilter<>() {
+                filterTailleRechercheLogement = new RowFilter<TableModelRechercheLogement, Object>() {
                     @Override
                     public boolean include(Entry entry) {
                         int taille = (int) entry.getValue(3);
@@ -200,7 +200,7 @@ public class pannelRechercheLogement extends JPanel implements ActionListener {
 
             if (!textFieldPrixMin.getText().equals("") && textFieldPrixMax.getText().equals("")) {
 
-                filterPrixMinRechercheLogement = new RowFilter<>() {
+                filterPrixMinRechercheLogement = new RowFilter<TableModelRechercheLogement, Object>() {
                     @Override
                     public boolean include(Entry entry) {
                         int prix = (int) entry.getValue(4);
@@ -212,7 +212,7 @@ public class pannelRechercheLogement extends JPanel implements ActionListener {
 
             if (!textFieldPrixMax.getText().equals("") && textFieldPrixMin.getText().equals("")) {
 
-                filterPrixMaxRechercheLogement = new RowFilter<>() {
+                filterPrixMaxRechercheLogement = new RowFilter<TableModelRechercheLogement, Object>() {
                     @Override
                     public boolean include(Entry entry) {
                         int prix = (int) entry.getValue(4);
@@ -224,7 +224,7 @@ public class pannelRechercheLogement extends JPanel implements ActionListener {
 
             if (!textFieldTailleMax.getText().equals("") && textFieldTailleMin.getText().equals("")) {
 
-                filterTailleMaxRechercheLogement = new RowFilter<>() {
+                filterTailleMaxRechercheLogement = new RowFilter<TableModelRechercheLogement, Object>() {
                     @Override
                     public boolean include(Entry entry) {
                         int taille = (int) entry.getValue(3);
@@ -236,7 +236,7 @@ public class pannelRechercheLogement extends JPanel implements ActionListener {
 
             if (!textFieldTailleMin.getText().equals("") && textFieldTailleMax.getText().equals("")) {
 
-                filterTailleMinRechercheLogement = new RowFilter<>() {
+                filterTailleMinRechercheLogement = new RowFilter<TableModelRechercheLogement, Object>() {
                     @Override
                     public boolean include(Entry entry) {
                         int taille = (int) entry.getValue(3);

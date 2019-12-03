@@ -33,7 +33,7 @@ public class View extends JFrame {
     private pannelAffichageAnnonce panelAnnonce = new pannelAffichageAnnonce(this);
     private pannelRechercheLogement panelRechercheLogement = new pannelRechercheLogement(this);
     private pannelGestionAnnonce panelGestionAnnonce = new pannelGestionAnnonce(this);
-    private pannelGestionOffre panelGestionOffre = new pannelGestionOffre(this);
+    private pannelGestionOffre panelGestionOffre;
 
     public View() throws SQLException {
         this.add(panelBandeau,BorderLayout.WEST);

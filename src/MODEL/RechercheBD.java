@@ -120,13 +120,13 @@ public class RechercheBD {
         Statement stmt = connexion.getConn().createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
 
         ResultSet result = stmt.executeQuery("SELECT idUtilisateur,Nom,Prénom,NumeroTelephone,utilisateur.ville," +
-                "mail,Annonce,idOffre,DateCreation,prix FROM offre INNER JOIN utilisateur ON offre.Acheteur = " +
+                "mail,Annonce,idOffre,DateCreation,prix,status FROM offre INNER JOIN utilisateur ON offre.Acheteur = " +
                 "utilisateur.idUtilisateur");
 
         while(result.next()){
             Utilisateur acheteur = new Utilisateur(result.getInt(1),result.getString(2),result.getString(3),result.getString(4),null,result.getString(5),result.getString(6));
             Annonce annonce = new Annonce(result.getInt(7),null,null,0,null);
-            Offre offre = new Offre(result.getInt(8),annonce,acheteur,result.getDate(9).toLocalDate(),result.getInt(10));
+            Offre offre = new Offre(result.getInt(8),annonce,acheteur,result.getDate(9).toLocalDate(),result.getInt(10),result.getString(11));
             retour.add(offre);
         }
 

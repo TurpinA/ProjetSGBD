@@ -9,13 +9,15 @@ public class Offre {
     Utilisateur acheteur;
     LocalDate dateCreation;
     int prix;
+    String Status;
 
-    public Offre(int id, Annonce annonce, Utilisateur acheteur, LocalDate dateCreation,int prix) {
+    public Offre(int id, Annonce annonce, Utilisateur acheteur, LocalDate dateCreation,int prix, String status) {
         this.id = id;
         this.annonce = annonce;
         this.acheteur = acheteur;
         this.dateCreation = dateCreation;
         this.prix = prix;
+        this.Status = status;
     }
 
     public int getId() {return id;}
@@ -37,5 +39,9 @@ public class Offre {
     public LocalDate getDateCreation() {return dateCreation;}
 
     public void setDateCreation(LocalDate dateCreation) {this.dateCreation = dateCreation;}
+
+    public String getStatus() {return Status;}
+
+    public void setStatus(String status) {this.Status = status;}
 
 }
