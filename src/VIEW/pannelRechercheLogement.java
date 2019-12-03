@@ -11,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -35,10 +36,10 @@ public class pannelRechercheLogement extends JPanel implements ActionListener {
     private JTextField textFieldPrixMin = new JTextField();
     private JTextField textFieldPrixMax = new JTextField();
     private JTextField textFieldVille = new JTextField();
-    private JComboBox<String> listypeLogement = new JComboBox<String>();
-    private JComboBox<String> listTransaction = new JComboBox<String>();
+    private JComboBox<String> listypeLogement = new JComboBox<>();
+    private JComboBox<String> listTransaction = new JComboBox<>();
 
-    private ArrayList<Annonce> dataRechercheLogement = new ArrayList<Annonce>();
+    private ArrayList<Annonce> dataRechercheLogement = new ArrayList<>();
     private TableModelRechercheLogement model;
     private TableRowSorter<TableModelRechercheLogement> sorterRechercheLogement;
 
@@ -70,15 +71,15 @@ public class pannelRechercheLogement extends JPanel implements ActionListener {
         this.add(textFieldTailleMax);
 
         labelPrixMin.setText("Prix min :");
-        labelPrixMin.setBounds(positionDepart[0],positionDepart[1] + gapY*1,labelPrixMin.getText().length()*6,20);
+        labelPrixMin.setBounds(positionDepart[0],positionDepart[1] + gapY,labelPrixMin.getText().length()*6,20);
         this.add(labelPrixMin);
-        textFieldPrixMin.setBounds(positionDepart[0] + labelPrixMin.getText().length()*6,positionDepart[1] + gapY*1,150,20);
+        textFieldPrixMin.setBounds(positionDepart[0] + labelPrixMin.getText().length()*6,positionDepart[1] + gapY,150,20);
         this.add(textFieldPrixMin);
 
         labelPrixMax.setText("Prix max :");
-        labelPrixMax.setBounds(positionDepart[0]+gapX,positionDepart[1] + gapY*1,labelPrixMax.getText().length()*6,20);
+        labelPrixMax.setBounds(positionDepart[0]+gapX,positionDepart[1] + gapY,labelPrixMax.getText().length()*6,20);
         this.add(labelPrixMax);
-        textFieldPrixMax.setBounds(positionDepart[0]+gapX + labelPrixMin.getText().length()*6,positionDepart[1] + gapY*1,150,20);
+        textFieldPrixMax.setBounds(positionDepart[0]+gapX + labelPrixMin.getText().length()*6,positionDepart[1] + gapY,150,20);
         this.add(textFieldPrixMax);
 
 
@@ -117,7 +118,7 @@ public class pannelRechercheLogement extends JPanel implements ActionListener {
         model = new TableModelRechercheLogement(entetes, dataRechercheLogement);
         tableRechercheLogement.setModel(model);
 
-        sorterRechercheLogement = new TableRowSorter<TableModelRechercheLogement>(model);
+        sorterRechercheLogement = new TableRowSorter<>(model);
 
         tableRechercheLogement.addMouseListener(new MouseAdapter() {
             @Override
@@ -127,8 +128,16 @@ public class pannelRechercheLogement extends JPanel implements ActionListener {
                     int idAnnonce = (int) table.getValueAt(table.getSelectedRow(),0);
                     try {
                         frame.getPanelAnnonce().changerAnnonce(ExtractionAnnonceAvecID(idAnnonce));
-                    } catch (SQLException ex) {
+                    } catch (SQLException | IOException ex) {
                         ex.printStackTrace();
+                    }
+
+                    if(View.utilisateurConnecte != null && View.utilisateurConnecte.getId() == frame.getPanelAnnonce().getAnnonce().getUtilisateur().getId()){
+                        frame.getPanelAnnonce().getButtonFaireOffre().setVisible(false);
+                    }
+
+                    if(View.utilisateurConnecte != null && View.utilisateurConnecte.getId() != frame.getPanelAnnonce().getAnnonce().getUtilisateur().getId()){
+                        frame.getPanelAnnonce().getButtonFaireOffre().setVisible(true);
                     }
 
                     Component[] allPanel = frame.getContentPane().getComponents();
@@ -153,6 +162,10 @@ public class pannelRechercheLogement extends JPanel implements ActionListener {
 
     }
 
+    public TableModelRechercheLogement getModel() {
+        return model;
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
 
@@ -171,7 +184,7 @@ public class pannelRechercheLogement extends JPanel implements ActionListener {
             RowFilter<TableModelRechercheLogement, Object> filterPrixRechercheLogement = null;
             RowFilter<TableModelRechercheLogement, Object> filterTailleRechercheLogement = null;
 
-            ArrayList<RowFilter<TableModelRechercheLogement,Object>> filtersRechercheLogement = new ArrayList<RowFilter<TableModelRechercheLogement,Object>>();
+            ArrayList<RowFilter<TableModelRechercheLogement,Object>> filtersRechercheLogement = new ArrayList<>();
             RowFilter<TableModelRechercheLogement, Object> compoundRowFilter = null;
 
             if (!textFieldPrixMin.getText().equals("") && !textFieldPrixMax.getText().equals("")) {

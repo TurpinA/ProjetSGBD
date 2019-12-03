@@ -8,6 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Blob;
@@ -36,7 +37,7 @@ public class pannelAffichageAnnonce extends JPanel implements ActionListener {
     private JLabel AFAImageLogement = new JLabel();
     private JLabel AFAPrix = new JLabel();
     private JTextArea AFATextArea = new JTextArea();
-    private Blob AFAPhoto = null;
+    private InputStream AFAPhoto = null;
 
     public pannelAffichageAnnonce(View view){
 
@@ -104,7 +105,11 @@ public class pannelAffichageAnnonce extends JPanel implements ActionListener {
 
     }
 
-    public void changerAnnonce(Annonce annonce){
+    public Annonce getAnnonce() {
+        return annonce;
+    }
+
+    public void changerAnnonce(Annonce annonce) throws IOException {
         this.annonce = annonce;
 
         AFALabelTypeTransaction.setText(annonce.gettypeTransaction());
@@ -122,15 +127,9 @@ public class pannelAffichageAnnonce extends JPanel implements ActionListener {
 
         if(AFAPhoto != null)
         {
-            InputStream in = null;
-            try {
-                in = AFAPhoto.getBinaryStream();
-                AFAImageLogement.setIcon(new ImageIcon(ImageIO.read(in)));
+                AFAImageLogement.setIcon(new ImageIcon(ImageIO.read(AFAPhoto)));
                 AFAImageLogement.setBounds(50,50,300,300);
                 this.add(AFAImageLogement);
-            } catch (IOException | SQLException ex) {
-                ex.printStackTrace();
-            }
         }
     }
 

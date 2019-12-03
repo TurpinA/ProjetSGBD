@@ -1,6 +1,8 @@
 package CONTROLER;
 
 import MODEL.Annonce;
+
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -15,6 +17,8 @@ public class TableModelRechercheLogement extends AbstractTableModel {
         this.columnNames = columnNames;
         this.donnee = donnee;
     }
+
+    public ArrayList<Annonce> getDonnee(){return donnee;}
 
     public int getColumnCount() {
         return columnNames.length;
@@ -54,6 +58,32 @@ public class TableModelRechercheLogement extends AbstractTableModel {
             }
         }
         return null;
+    }
+
+    public void removeRowByID(int idAnnonce){
+        Iterator<Annonce> iterator = donnee.iterator();
+        Annonce annonce = iterator.next();
+        while(annonce.getId() != idAnnonce){
+            annonce = iterator.next();
+        }
+
+        donnee.remove(annonce);
+        this.fireTableDataChanged();
+    }
+
+    public void removeRow(int row) throws SQLException {
+
+        int idAnnonce = (int)getValueAt(row,0);
+        DelecteObject.SupprimerAnnonceByID(idAnnonce);
+
+        Iterator<Annonce> iterator = donnee.iterator();
+        Annonce annonce = iterator.next();
+        while(annonce.getId() != idAnnonce){
+            annonce = iterator.next();
+        }
+
+        donnee.remove(annonce);
+        this.fireTableDataChanged();
     }
 
     public Class<? extends Object> getColumnClass(int c) {

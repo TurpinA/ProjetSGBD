@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 public class Main {
 
-	public static void main(String[] args) throws SQLException, IOException {
+	public static void main(String[] args) throws SQLException{
 
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
@@ -24,7 +24,6 @@ public class Main {
 		connexion.setConnexion("127.0.0.1","3306","mydb", "root", "");
 
 		View test  = new View();
-		//test.utilisateurConnecte(new Utilisateur(13,"ADMIN","","","","",""));
 	}
 
 }

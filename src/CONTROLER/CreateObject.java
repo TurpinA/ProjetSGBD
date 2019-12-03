@@ -6,10 +6,8 @@ import MODEL.Offre;
 import MODEL.Utilisateur;
 
 import java.io.FileInputStream;
-import java.sql.Blob;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.io.InputStream;
+import java.sql.*;
 import java.time.LocalDate;
 
 public class CreateObject {
@@ -36,19 +34,25 @@ public class CreateObject {
         return user;
     }
 
-    public static Logement CreateLogement(String ville, int taille, String type, LocalDate anneeDeCreation, String adresse, Blob photo, String description) throws SQLException {
+    public static Logement CreateLogement(String ville, int taille, String type, LocalDate anneeDeCreation, String adresse, InputStream photo, String description) throws SQLException {
         connexion.enableConnexion();
-
-        Statement stmt = connexion.getConn().createStatement();
 
         String sql = "INSERT INTO logement VALUES (NULL, '"+ ville +"', "+ taille +", '"+ type +"', '" +
                 anneeDeCreation.getYear() +"-" + anneeDeCreation.getMonth().getValue() + "-"+
-                anneeDeCreation.getDayOfMonth() +"', '"+ adresse +"', '"+ photo +"', '"+ description +"');";
-        stmt.executeUpdate(sql);
+                anneeDeCreation.getDayOfMonth() +"', '"+ adresse +"',?, '"+ description +"');";
+
+        PreparedStatement pstmt = connexion.getConn().prepareStatement(sql);
+
+        pstmt .setBinaryStream(1,photo);
+
+        pstmt .execute();
+
+        Statement stmt = connexion.getConn().createStatement();
         ResultSet result = stmt.executeQuery("SELECT LAST_INSERT_ID();");
         result.next();
         Logement logement = new Logement(result.getInt(1),ville,taille,type,anneeDeCreation,adresse,photo,description);
 
+        pstmt.close();
         stmt.close();
 
         connexion.stopConnexion();

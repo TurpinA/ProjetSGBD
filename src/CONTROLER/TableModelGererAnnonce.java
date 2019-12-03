@@ -18,6 +18,8 @@ public class TableModelGererAnnonce extends AbstractTableModel {
         this.donnee = donnee;
     }
 
+    public ArrayList<Annonce> getDonnee(){return donnee;}
+
     public void setDonne(ArrayList<Annonce> donnee){
         this.donnee = donnee;
     }
@@ -84,10 +86,44 @@ public class TableModelGererAnnonce extends AbstractTableModel {
     }
 
     public boolean isCellEditable(int row, int col) {
-        if (col == 1 || col == 2 || col == 3 || col == 4 || col == 5)
-            return true;
-        else
-            return false;
+        return col == 1 || col == 2 || col == 3 || col == 4 || col == 5;
+    }
+
+    public void setValueAt(Object value, int row, int col) {
+        Iterator<Annonce> iterator = donnee.iterator();
+
+        for (int i = 0; i < row; i++)
+            iterator.next();
+
+        Annonce annonceSelected = iterator.next();
+
+        if (col == 1) {
+            annonceSelected.getLogement().setVille((String) value);
+        }
+
+        if (col == 2) {
+            annonceSelected.getLogement().setType((String) value);
+        }
+
+        if (col == 3) {
+            annonceSelected.getLogement().setTaille((int)value);
+        }
+
+        if (col == 4) {
+            annonceSelected.setPrix((int)value);
+        }
+
+        if (col == 5) {
+            annonceSelected.settypeTransaction((String)value);
+        }
+
+        try {
+            ModifyObject.modifierAnnonce(annonceSelected);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        this.fireTableCellUpdated(row, col);
     }
 
 }
