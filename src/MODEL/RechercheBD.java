@@ -5,6 +5,8 @@ import MODEL.Annonce;
 import MODEL.Logement;
 import MODEL.Utilisateur;
 
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -34,7 +36,7 @@ public class RechercheBD {
 
     public static ArrayList<Annonce> ExtractionAllAnnonce() throws SQLException {
 
-        ArrayList<Annonce> retour = new ArrayList<Annonce>();
+        ArrayList<Annonce> retour = new ArrayList<>();
 
         connexion.enableConnexion();
         Statement stmt = connexion.getConn().createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
@@ -45,7 +47,7 @@ public class RechercheBD {
                 "INNER JOIN logement ON annonce.Logement = logement.idLogement");
 
         while(result.next()){
-            Logement logement = new Logement(result.getInt(1),result.getString(2),result.getInt(3),result.getString(4),result.getDate(5).toLocalDate(),result.getString(6),result.getBlob(7),result.getString(8));
+            Logement logement = new Logement(result.getInt(1),result.getString(2),result.getInt(3),result.getString(4),result.getDate(5).toLocalDate(),result.getString(6),(InputStream)result.getBlob(7).getBinaryStream(),result.getString(8));
             Utilisateur utilisateur = new Utilisateur(result.getInt(9),result.getString(10),result.getString(11),result.getString(12),null,result.getString(13),result.getString(14));
             Annonce annonce = new Annonce(result.getInt(15),logement,utilisateur,result.getInt(16),result.getString(17));
 
@@ -66,7 +68,7 @@ public class RechercheBD {
         }else{
             idUtilisateur = -1;
         }
-        ArrayList<Annonce> retour = new ArrayList<Annonce>();
+        ArrayList<Annonce> retour = new ArrayList<>();
 
         connexion.enableConnexion();
         Statement stmt = connexion.getConn().createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
@@ -77,7 +79,7 @@ public class RechercheBD {
                 "INNER JOIN logement ON annonce.Logement = logement.idLogement WHERE utilisateur.idUtilisateur = " + idUtilisateur);
 
         while(result.next()){
-            Logement logement = new Logement(result.getInt(1),result.getString(2),result.getInt(3),result.getString(4),result.getDate(5).toLocalDate(),result.getString(6),result.getBlob(7),result.getString(8));
+            Logement logement = new Logement(result.getInt(1),result.getString(2),result.getInt(3),result.getString(4),result.getDate(5).toLocalDate(),result.getString(6),(InputStream)result.getBlob(7).getBinaryStream(),result.getString(8));
             Utilisateur utilisateur = new Utilisateur(result.getInt(9),result.getString(10),result.getString(11),result.getString(12),null,result.getString(13),result.getString(14));
             Annonce annonce = new Annonce(result.getInt(15),logement,utilisateur,result.getInt(16),result.getString(17));
 
@@ -101,7 +103,7 @@ public class RechercheBD {
                 "INNER JOIN logement ON annonce.Logement = logement.idLogement WHERE idAnnonce = " + id);
 
         if(result.next()){
-            Logement logement = new Logement(result.getInt(1),result.getString(2),result.getInt(3),result.getString(4),result.getDate(5).toLocalDate(),result.getString(6),result.getBlob(7),result.getString(8));
+            Logement logement = new Logement(result.getInt(1),result.getString(2),result.getInt(3),result.getString(4),result.getDate(5).toLocalDate(),result.getString(6),(InputStream)result.getBlob(7).getBinaryStream(),result.getString(8));
             Utilisateur utilisateur = new Utilisateur(result.getInt(9),result.getString(10),result.getString(11),result.getString(12),null,result.getString(13),result.getString(14));
             annonce = new Annonce(result.getInt(15),logement,utilisateur,result.getInt(16),result.getString(17));
         }
@@ -114,7 +116,7 @@ public class RechercheBD {
 
     public static ArrayList<Offre> ExtractionOffreUtilisateur(Utilisateur utilisateur) throws SQLException {
 
-        ArrayList<Offre> retour = new ArrayList<Offre>();
+        ArrayList<Offre> retour = new ArrayList<>();
 
         connexion.enableConnexion();
         Statement stmt = connexion.getConn().createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);

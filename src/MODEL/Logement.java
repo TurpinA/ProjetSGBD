@@ -1,5 +1,7 @@
 package MODEL;
 
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.sql.Blob;
 import java.time.LocalDate;
 
@@ -11,10 +13,10 @@ public class Logement {
     String type;
     LocalDate anneeDeCreation;
     String adresse;
-    Blob photo;
+    InputStream photo;
     String description;
 
-    public Logement(int id, String ville, int taille, String type, LocalDate anneeDeCreation, String adresse, Blob photo, String description) {
+    public Logement(int id, String ville, int taille, String type, LocalDate anneeDeCreation, String adresse, InputStream  photo, String description) {
         this.id = id;
         this.ville = ville;
         this.taille = taille;
@@ -49,9 +51,9 @@ public class Logement {
 
     public void setAdresse(String adresse) {this.adresse = adresse;}
 
-    public Blob getPhoto() {return photo;}
+    public InputStream getPhoto() {return photo;}
 
-    public void setPhoto(Blob photo) {this.photo = photo;}
+    public void setPhoto(InputStream  photo) {this.photo = photo;}
 
     public String getDescription() {return description;}
 

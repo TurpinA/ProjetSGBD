@@ -13,7 +13,7 @@ public class Connexion {
 	public String Password;
 	
 	public Connexion() {
-	};
+	}
 
 	public void enableConnexion() {
 
@@ -36,6 +36,7 @@ public class Connexion {
 		RechercheBD.connexion = this;
 		CreateObject.connexion = this;
 		DelecteObject.connexion = this;
+		ModifyObject.connexion = this;
 	}
 	
 	public void stopConnexion() throws SQLException {
